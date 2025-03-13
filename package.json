@@ -1,15 +1,33 @@
 {
-  "name": "app",
-  "version": "1.0.50",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
-  },
-  "dependencies": {
-    "elysia": "latest"
-  },
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+	"name": "elysia-api",
+	"version": "0.1.0",
+	"scripts": {
+		"db:generate": "bun prisma generate",
+		"db:migrate": "bun prisma migrate dev",
+		"db:push": "bun prisma db push",
+		"lint": "bunx biome lint --write",
+		"check": "bunx biome check --write",
+		"format": "bunx biome format --write",
+		"dev": "bun run --watch src/index.ts",
+		"build": "bun run db:generate && bun run check && bun run lint && bun run format && bun build src/index.ts --outdir=build --target=bun --minify",
+		"start": "bun run build/index.js"
+	},
+	"dependencies": {
+		"@elysiajs/cors": "^1.2.0",
+		"@elysiajs/jwt": "^1.2.0",
+		"@elysiajs/server-timing": "^1.2.1",
+		"@elysiajs/swagger": "^1.2.2",
+		"@prisma/client": "^6.5.0",
+		"ajv": "^8.17.1",
+		"ajv-formats": "^3.0.1",
+		"cryptr": "^6.3.0",
+		"dayjs": "^1.11.13",
+		"elysia": "1.2.25",
+		"zod": "^3.24.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"bun-types": "latest",
+		"prisma": "^6.5.0"
+	}
 }
