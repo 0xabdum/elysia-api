@@ -1,28 +1,17 @@
 import { PrismaClient } from "@prisma/client";
-import type { Elysia } from "elysia";
+import type Elysia from "elysia";
 
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
-
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+const prisma = new PrismaClient();
 
 prisma
 	.$connect()
-	.then(() => console.log("✅ Prisma is connected to the database"))
-	.catch((error: unknown) =>
-		console.error("❌ Error connecting to Prisma:", error),
-	);
-
-const prismaElysia = (app: Elysia) => {
-	app.decorate("prisma", prisma);
-
-	app.onStop(() => {
-		prisma.$disconnect();
-		console.log("🛑 Prisma connection closed");
+	.then(() => {
+		console.log("Prisma is connected to the database");
+	})
+	.catch((error: unknown) => {
+		console.error("Error connecting to Prisma:", error);
 	});
 
-	return app;
-};
+const prismaElysia = (app: Elysia) => app.decorate("prisma", prisma);
 
 export default prismaElysia;
