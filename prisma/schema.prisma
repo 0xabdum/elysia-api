@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String?
+  roleId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  role        Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  sessions        UserSession[]
+  refreshTokens   RefreshToken[]
+  loginAttempts   LoginAttempt[]
+  passwordResets  PasswordReset[]
+
+  @@index([email, username])
+  @@map("users")
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  users       User[]
+  permissions PermissionRoleLink[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  roles       PermissionRoleLink[]
+
+  @@map("permissions")
+}
+
+model PermissionRoleLink {
+  id           Int      @id @default(autoincrement())
+  roleId       Int
+  permissionId Int
+
+  role        Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission  Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@map("permission_role_link")
+  @@unique([roleId, permissionId]) // Mencegah duplikasi role-permission
+}
+
+model UserSession {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  token       String   @unique
+  userAgent   String?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime?
+
+  refreshTokens RefreshToken[]
+
+  @@map("auth_session")
+}
+
+model RefreshToken {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  session      UserSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId    Int
+  refreshToken String   @unique
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  @@map("auth_refresh_token")
+}
+
+model PasswordReset {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  resetToken String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@map("auth_reset")
+}
+
+model LoginAttempt {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  ipAddress   String?
+  attemptTime DateTime @default(now())
+  success     Boolean  @default(false)
+
+  @@map("auth_activity")
+}
