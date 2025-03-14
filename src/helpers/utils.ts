@@ -5,16 +5,16 @@ const convertTimeToDate = (time: string): Date => {
 	let milliseconds = 0;
 
 	switch (unit) {
-		case "d": // Hari
+		case 'd': // Hari
 			milliseconds = value * 1000 * 60 * 60 * 24;
 			break;
-		case "h": // Jam
+		case 'h': // Jam
 			milliseconds = value * 1000 * 60 * 60;
 			break;
-		case "m": // Menit
+		case 'm': // Menit
 			milliseconds = value * 1000 * 60;
 			break;
-		case "s": // Detik
+		case 's': // Detik
 			milliseconds = value * 1000;
 			break;
 		default:

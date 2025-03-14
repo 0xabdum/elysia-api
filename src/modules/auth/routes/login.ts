@@ -1,11 +1,11 @@
-import prismaElysia from "@/decorators/prisma";
-import Elysia from "elysia";
-import type { ResponseLogin } from "../auth.model";
-import type { RegisterPayload } from "@/schemas/users.schema";
-import { loginAuth, sessionAuth } from "../auth.handler";
-import { authValidationHandler } from "../auth.request";
-import { jwtAccessSetup, jwtRefreshSetup } from "@/helpers/jwt";
-import env from "@/helpers/env";
+import prismaElysia from '@/decorators/prisma';
+import Elysia from 'elysia';
+import type { ResponseLogin } from '../auth.model';
+import type { RegisterPayload } from '@/schemas/users.schema';
+import { loginAuth, sessionAuth } from '../auth.handler';
+import { authValidationHandler } from '../auth.request';
+import { jwtAccessSetup, jwtRefreshSetup } from '@/helpers/jwt';
+import env from '@/helpers/env';
 
 const login = new Elysia()
 	.use(jwtAccessSetup)
@@ -13,7 +13,7 @@ const login = new Elysia()
 	.use(prismaElysia)
 	.use(authValidationHandler)
 	.post(
-		"/login",
+		'/login',
 		async ({
 			body,
 			prisma,
@@ -33,8 +33,8 @@ const login = new Elysia()
 				sub: JSON.stringify({ ...user }),
 			});
 
-			const userAgent = headers["user-agent"] || "unknown";
-			const ipAddress = (ctx as any).ip || "unknown";
+			const userAgent = headers['user-agent'] || 'unknown';
+			const ipAddress = (ctx as any).ip || 'unknown';
 
 			await sessionAuth(prisma, {
 				userId,
@@ -49,7 +49,7 @@ const login = new Elysia()
 			return {
 				statusCode: 200,
 				success: true,
-				message: "Success login user",
+				message: 'Success login user',
 				data: {
 					accessToken,
 					refreshToken,

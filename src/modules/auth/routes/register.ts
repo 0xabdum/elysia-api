@@ -1,15 +1,15 @@
-import prismaElysia from "@/decorators/prisma";
-import Elysia from "elysia";
-import type { ResponseRegister } from "../auth.model";
-import type { RegisterPayload } from "@/schemas/users.schema";
-import { registerAuth } from "../auth.handler";
-import { authValidationHandler } from "../auth.request";
+import prismaElysia from '@/decorators/prisma';
+import Elysia from 'elysia';
+import type { ResponseRegister } from '../auth.model';
+import type { RegisterPayload } from '@/schemas/users.schema';
+import { registerAuth } from '../auth.handler';
+import { authValidationHandler } from '../auth.request';
 
 const register = new Elysia()
 	.use(prismaElysia)
 	.use(authValidationHandler)
 	.post(
-		"/register",
+		'/register',
 		async ({ body, prisma, set }): Promise<ResponseRegister> => {
 			const registerRecordUser = await registerAuth(
 				prisma,
@@ -19,7 +19,7 @@ const register = new Elysia()
 			return {
 				statusCode: 201,
 				success: true,
-				message: "Success register user",
+				message: 'Success register user',
 				data: registerRecordUser,
 			};
 		},

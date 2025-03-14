@@ -1,22 +1,22 @@
-import { jwt } from "@elysiajs/jwt";
-import env from "@helpers/env";
-import Elysia from "elysia";
+import { jwt } from '@elysiajs/jwt';
+import env from '@helpers/env';
+import Elysia from 'elysia';
 
 const jwtAccessSetup = new Elysia({
-	name: "jwtAccess",
+	name: 'jwtAccess',
 }).use(
 	jwt({
-		name: "jwtAccess",
+		name: 'jwtAccess',
 		secret: env.JWT_SECRETS,
 		exp: env.JWT_EXPIRED,
 	}),
 );
 
 const jwtRefreshSetup = new Elysia({
-	name: "jwtRefresh",
+	name: 'jwtRefresh',
 }).use(
 	jwt({
-		name: "jwtRefresh",
+		name: 'jwtRefresh',
 		secret: env.JWT_SECRETS,
 		exp: env.JWT_REFRESH_EXPIRED,
 	}),

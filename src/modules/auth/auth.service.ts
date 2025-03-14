@@ -1,9 +1,9 @@
-import Cryptr from "cryptr";
-import env from "@helpers/env";
+import Cryptr from 'cryptr';
+import env from '@helpers/env';
 
 const hashAuth = async (password: string) => {
 	return await Bun.password.hash(password, {
-		algorithm: "bcrypt",
+		algorithm: 'bcrypt',
 	});
 };
 

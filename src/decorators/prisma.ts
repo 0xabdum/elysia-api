@@ -1,17 +1,17 @@
-import { PrismaClient } from "@prisma/client";
-import type Elysia from "elysia";
+import { PrismaClient } from '@prisma/client';
+import type Elysia from 'elysia';
 
 const prisma = new PrismaClient();
 
 prisma
 	.$connect()
 	.then(() => {
-		console.log("Prisma is connected to the database");
+		console.log('Prisma is connected to the database');
 	})
 	.catch((error: unknown) => {
-		console.error("Error connecting to Prisma:", error);
+		console.error('Error connecting to Prisma:', error);
 	});
 
-const prismaElysia = (app: Elysia) => app.decorate("prisma", prisma);
+const prismaElysia = (app: Elysia) => app.decorate('prisma', prisma);
 
 export default prismaElysia;

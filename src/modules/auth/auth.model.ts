@@ -1,6 +1,6 @@
-import { t } from "elysia";
-import { ResponseBaseModel } from "@helpers/models";
-import { UserSchema } from "@/schemas/users.schema";
+import { t } from 'elysia';
+import { ResponseBaseModel } from '@helpers/models';
+import { UserSchema } from '@/schemas/users.schema';
 
 const ResponseRegisterModel = ResponseBaseModel.extend({
 	data: UserSchema,

@@ -1,11 +1,11 @@
-import { globalError, validationError } from "@/helpers/errors";
-import type { ResponseError, ValidationType } from "@/helpers/models";
-import Elysia from "elysia";
+import { globalError, validationError } from '@/helpers/errors';
+import type { ResponseError, ValidationType } from '@/helpers/models';
+import Elysia from 'elysia';
 
-const authRoutes = new Elysia({ prefix: "/auth" });
+const authRoutes = new Elysia({ prefix: '/auth' });
 
 authRoutes.onError(({ error, code, ...ctx }): ResponseError => {
-	if ("error" in error && "code" in error) {
+	if ('error' in error && 'code' in error) {
 		const responseValidationError = validationError(
 			error as ValidationType,
 			ctx,
@@ -21,7 +21,7 @@ authRoutes.onError(({ error, code, ...ctx }): ResponseError => {
 	return {
 		statusCode: 500,
 		success: false,
-		message: "message" in error ? error.message : "Internal Server Error",
+		message: 'message' in error ? error.message : 'Internal Server Error',
 		error: {},
 	};
 });

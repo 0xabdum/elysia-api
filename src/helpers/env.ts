@@ -1,14 +1,14 @@
-import { t } from "elysia";
-import ajv from "@helpers/ajv";
-import { GlobalResponseError } from "./errors";
+import { t } from 'elysia';
+import ajv from '@helpers/ajv';
+import { GlobalResponseError } from './errors';
 
 const EnvModel = t.Object({
 	NODE_ENV: t.Optional(
 		t.Union([
-			t.Literal("development"),
-			t.Literal("staging"),
-			t.Literal("production"),
-			t.Literal("test"),
+			t.Literal('development'),
+			t.Literal('staging'),
+			t.Literal('production'),
+			t.Literal('test'),
 		]),
 	),
 	SERVER_PORT: t.Number(),
@@ -24,13 +24,13 @@ const isValidEnv = validate({
 	...process.env,
 	NODE_ENV: process.env.NODE_ENV
 		? process.env.NODE_ENV.toLowerCase()
-		: "development",
+		: 'development',
 	SERVER_PORT: process.env.SERVER_PORT ? Number(process.env.SERVER_PORT) : 3000,
 });
 
 if (isValidEnv === false) {
-	throw new GlobalResponseError(500, "Internal", {
-		server: "Invalid environment variables",
+	throw new GlobalResponseError(500, 'Internal', {
+		server: 'Invalid environment variables',
 	});
 }
 

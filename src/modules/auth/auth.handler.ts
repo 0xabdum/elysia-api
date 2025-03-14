@@ -1,14 +1,14 @@
-import type { PrismaClient } from "@prisma/client";
-import { NotFoundError } from "elysia";
-import { GlobalResponseError } from "@helpers/errors";
-import { hashAuth, isMatchAuth } from "./auth.service";
+import type { PrismaClient } from '@prisma/client';
+import { NotFoundError } from 'elysia';
+import { GlobalResponseError } from '@helpers/errors';
+import { hashAuth, isMatchAuth } from './auth.service';
 import type {
 	LoginPayload,
 	RegisterPayload,
 	SessionPayload,
-} from "@/schemas/users.schema";
-import { convertTimeToDate } from "@/helpers/utils";
-import env from "@/helpers/env";
+} from '@/schemas/users.schema';
+import { convertTimeToDate } from '@/helpers/utils';
+import env from '@/helpers/env';
 
 const uniqueUsernameEmail = async (
 	prisma: PrismaClient,
@@ -21,16 +21,16 @@ const uniqueUsernameEmail = async (
 	});
 	if (existingUser) {
 		throw {
-			code: "CUSTOM_VALIDATION_ERROR",
+			code: 'CUSTOM_VALIDATION_ERROR',
 			error: [
 				existingUser.username === payload.username
-					? { path: ["username"], message: "sudah digunakan" }
+					? { path: ['username'], message: 'sudah digunakan' }
 					: null,
 				existingUser.email === payload.email
-					? { path: ["email"], message: "sudah digunakan" }
+					? { path: ['email'], message: 'sudah digunakan' }
 					: null,
 			].filter(Boolean),
-			message: "username atau email sudah digunakan",
+			message: 'username atau email sudah digunakan',
 		};
 	}
 };
@@ -74,14 +74,14 @@ const loginAuth = async (prisma: PrismaClient, payload: LoginPayload) => {
 	});
 
 	if (!auth) {
-		throw new NotFoundError("email & password tidak sesuai");
+		throw new NotFoundError('email & password tidak sesuai');
 	}
 
 	const isPasswordMatch = await isMatchAuth(payload.password, auth.password);
 
 	if (!isPasswordMatch) {
-		throw new GlobalResponseError(401, "email & password tidak sesuai", {
-			client: "Invalid credentials",
+		throw new GlobalResponseError(401, 'email & password tidak sesuai', {
+			client: 'Invalid credentials',
 		});
 	}
 
@@ -117,8 +117,8 @@ const sessionAuth = async (prisma: PrismaClient, payload: SessionPayload) => {
 		},
 	});
 	if (!session) {
-		throw new GlobalResponseError(401, "login gagal coba beberapa saat lagi", {
-			client: "Invalid credentials",
+		throw new GlobalResponseError(401, 'login gagal coba beberapa saat lagi', {
+			client: 'Invalid credentials',
 		});
 	}
 	const refreshSession = await prisma.refreshToken.upsert({
@@ -135,8 +135,8 @@ const sessionAuth = async (prisma: PrismaClient, payload: SessionPayload) => {
 		},
 	});
 	if (!refreshSession) {
-		throw new GlobalResponseError(401, "login gagal coba beberapa saat lagi", {
-			client: "Invalid credentials",
+		throw new GlobalResponseError(401, 'login gagal coba beberapa saat lagi', {
+			client: 'Invalid credentials',
 		});
 	}
 };
