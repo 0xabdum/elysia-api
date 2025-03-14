@@ -3,6 +3,7 @@ import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import env from "./helpers/env";
+import { ip } from "elysia-ip";
 
 console.time("⌛ Startup Time");
 
@@ -10,6 +11,7 @@ new Elysia()
 	.use(swagger())
 	.use(serverTiming())
 	.use(cors())
+	.use(ip({ checkHeaders: ["X-Forwarded-For", "X-Real-IP"] }))
 	.group("/api", (app) =>
 		app
 			.get("/", () => "Hello Elysia")
