@@ -4,6 +4,7 @@ import { swagger } from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
 import env from './helpers/env';
 import { ip } from 'elysia-ip';
+import authRoutes from './modules/auth/routes';
 
 console.time('⌛ Startup Time');
 
@@ -14,7 +15,8 @@ new Elysia()
 	.use(ip({ checkHeaders: ['X-Forwarded-For', 'X-Real-IP'] }))
 	.group('/api', (app) =>
 		app
-			.get('/', () => 'Hello Elysia')
+			// .get('/', () => 'Hello Elysia')
+			.use(authRoutes)
 			.onError(({ error, ...ctx }) => {
 				console.log({ ctx });
 			}),

@@ -1,8 +1,10 @@
 import { globalError, validationError } from '@/helpers/errors';
 import type { ResponseError, ValidationType } from '@/helpers/models';
 import Elysia from 'elysia';
+import register from './register';
+import login from './login';
 
-const authRoutes = new Elysia({ prefix: '/auth' });
+const authRoutes = new Elysia({ prefix: '/auth' }).use(register).use(login);
 
 authRoutes.onError(({ error, code, ...ctx }): ResponseError => {
 	if ('error' in error && 'code' in error) {
