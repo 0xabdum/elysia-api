@@ -1,23 +1,19 @@
-# Development Dockerfile (Dockerfile.dev)
+# # Development Dockerfile (Dockerfile.dev)
 FROM oven/bun:1
 
 WORKDIR /app
 
-# Install PostgreSQL client
 RUN apt-get update && apt-get install -y postgresql-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy package files
-COPY package.json bun.lockb* ./
+COPY package.json bun.lockb* prisma ./ 
 
-# Install dependencies
-RUN bun install
+RUN bun install --frozen-lockfile
 
-# Copy the rest of the app
+RUN bun prisma generate
+
 COPY . .
 
-# Expose port
-EXPOSE 3000
+EXPOSE 8000
 
-# Start development server with hot reloading
-CMD ["bun", "run", "dev"]
+CMD ["sh", "-c", "bun run db:migrate && bun run dev"]
