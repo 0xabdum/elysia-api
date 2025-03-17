@@ -23,5 +23,24 @@ const register = new Elysia()
 				data: registerRecordUser,
 			};
 		},
+		{
+			detail: {
+				summary: 'Register',
+				tags: ['Auth'],
+				requestBody: {
+					content: {
+						'application/json': {
+							example: {
+								username: 'aldi123',
+								email: 'aldi@example.com',
+								firstName: 'Aldi',
+								password: 'test1234',
+								roleId: 1,
+							},
+						},
+					},
+				},
+			},
+		},
 	);
 export default register;

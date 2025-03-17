@@ -58,5 +58,21 @@ const login = new Elysia()
 				},
 			};
 		},
+		{
+			detail: {
+				summary: 'Login',
+				tags: ['Auth'],
+				requestBody: {
+					content: {
+						'application/json': {
+							example: {
+								email: 'aldi@example.com',
+								password: 'test1234',
+							},
+						},
+					},
+				},
+			},
+		},
 	);
 export default login;
