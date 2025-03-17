@@ -5,6 +5,7 @@ import { Elysia } from 'elysia';
 import env from './helpers/env';
 import { ip } from 'elysia-ip';
 import authRoutes from './modules/auth/routes';
+import usersRoutes from './modules/users/routes';
 
 console.time('⌛ Startup Time');
 
@@ -15,7 +16,7 @@ new Elysia()
 	.use(ip({ checkHeaders: ['X-Forwarded-For', 'X-Real-IP'] }))
 	.group('/api', (app) =>
 		app
-			// .get('/', () => 'Hello Elysia')
+			.use(usersRoutes)
 			.use(authRoutes)
 			.onError(({ error, ...ctx }) => {
 				console.log({ ctx });

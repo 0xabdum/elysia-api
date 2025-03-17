@@ -81,6 +81,7 @@ const serverError = (error: Error, ctx: ErrorContext): ResponseError | null => {
 		error instanceof InternalServerError ||
 		error instanceof NotFoundError ||
 		error instanceof ParseError ||
+		error instanceof ValidationError ||
 		error instanceof InvalidCookieSignature
 	) {
 		let message = error.message;

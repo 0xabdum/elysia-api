@@ -34,17 +34,23 @@ const ValidationModel = t.Object({
 	message: t.Optional(t.String()),
 });
 
+const HeaderAuthorizationModel = t.Object({
+	authorization: t.String(),
+});
+
 type ResponseBase = typeof ResponseBaseModel.static;
 type ResponseSuccess = typeof ResponseSuccessModel.static;
 type ResponseError = typeof ResponseErrorModel.static;
 type ValidationType = typeof ValidationModel.static;
 type ZodIssueSchema = typeof ZodIssueSchemaModel.static;
+type HeaderAuthorization = typeof HeaderAuthorizationModel.static;
 
 export {
 	ResponseBaseModel,
 	ResponseSuccessModel,
 	ResponseErrorModel,
 	ValidationModel,
+	HeaderAuthorizationModel,
 };
 export type {
 	ResponseBase,
@@ -52,4 +58,5 @@ export type {
 	ResponseError,
 	ValidationType,
 	ZodIssueSchema,
+	HeaderAuthorization,
 };
