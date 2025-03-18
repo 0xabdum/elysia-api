@@ -26,4 +26,11 @@ const convertTimeToDate = (time: string): Date => {
 	return new Date(Date.now() + milliseconds);
 };
 
-export { convertTimeToDate };
+function endpointToSlug(endpoint: string): string {
+	return `${endpoint
+		.split('/')
+		.filter((item) => item !== '')
+		.join('_')}`; // "/api/user/findById" → "api_user_findById"
+}
+
+export { convertTimeToDate, endpointToSlug };
