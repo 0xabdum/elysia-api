@@ -6,7 +6,7 @@ const ResponseMeModel = ResponseBaseModel.extend({
 	data: UserSchema,
 });
 
-type ResponseRegister = typeof ResponseMeModel.static;
+type ResponseMe = typeof ResponseMeModel.static;
 
 export { ResponseMeModel };
-export type { ResponseRegister };
+export type { ResponseMe };
