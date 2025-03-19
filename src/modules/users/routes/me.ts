@@ -2,11 +2,13 @@ import prismaElysia from '@/decorators/prisma';
 import Elysia from 'elysia';
 import { jwtAccessSetup, jwtRefreshSetup } from '@/helpers/jwt';
 import type { ResponseMeModel } from '../users.models';
+import authPlugin from '@/plugin/authPlugin';
 
 const me = new Elysia()
 	.use(jwtAccessSetup)
 	.use(jwtRefreshSetup)
 	.use(prismaElysia)
+	.use(authPlugin)
 	.get(
 		'/me',
 		async ({
