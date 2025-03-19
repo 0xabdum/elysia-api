@@ -13,12 +13,33 @@ const me = new Elysia()
 	.onBeforeHandle(async ({ prisma, user, path }) => {
 		await authorize(prisma, user.roleId, path);
 	})
-	.get('/me', async ({ user }): Promise<ResponseMe> => {
-		return {
-			statusCode: 200,
-			success: true,
-			message: 'Success find user',
-			data: user,
-		};
-	});
+	.get(
+		'/me',
+		async ({ user }): Promise<ResponseMe> => {
+			return {
+				statusCode: 200,
+				success: true,
+				message: 'Success find user',
+				data: user,
+			};
+		},
+		{
+			detail: {
+				summary: 'Get My Profile',
+				tags: ['Users'],
+				parameters: [
+					{
+						name: 'Authorization',
+						in: 'header',
+						required: true,
+						description: 'Token Bearer untuk autentikasi',
+						schema: {
+							type: 'string',
+							example: 'Bearer your_access_token_here',
+						},
+					},
+				],
+			},
+		},
+	);
 export default me;

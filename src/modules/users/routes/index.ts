@@ -1,6 +1,7 @@
 import { globalError, serverError, validationError } from '@/helpers/errors';
 import {
 	HeaderAuthorizationModel,
+	ResponseBaseModel,
 	ResponseErrorModel,
 	type ResponseError,
 	type ValidationType,
@@ -12,6 +13,7 @@ const usersRoutes = new Elysia({ prefix: '/users' })
 	.guard({
 		response: {
 			401: ResponseErrorModel,
+			200: ResponseBaseModel,
 		},
 		headers: HeaderAuthorizationModel,
 	})
